@@ -15,11 +15,13 @@ import datetime
 import re
 import traceback
 import commands
+import os
+import os.path
 
 
 ''' 路径大家都统一.可以直接在这里配置 '''
 BACKUP_PATH = "/data/backup/redis_by_date/"
-BACKUP_PATH = "/Users/Ron2/MyMovie"
+# BACKUP_PATH = "/Users/Ron2/MyMovie"
 
 
 
@@ -43,9 +45,6 @@ def _findTodayBackFile():
     """
     global BACKUP_PATH
     rootDir = BACKUP_PATH
-
-    import os
-    import os.path
 
     fileList = os.listdir(rootDir)
 
@@ -79,13 +78,13 @@ def backupData(serverIP, hour):
     :param hour:                    从现在开始.多少小时以内均可以
     """
     ''' 1, 求出传输时间点.随机一个值是为了所有服务器错开时间点传过去 '''
-    deltaTime = random.randint(0, hour * 3600)
+    deltaTime = random.randint(0, hour * 3600+1)
     now = time.time()
     copyTime = now + deltaTime
 
-    # ''' 2, 一直等到传输时间 '''
-    # while copyTime >= time.time():
-    #     time.sleep(1)
+    ''' 2, 一直等到传输时间 '''
+    while copyTime >= time.time():
+        time.sleep(1)
 
     ''' 3, 找到今天备份的 '''
     resultFileNameArray = _findTodayBackFile()
