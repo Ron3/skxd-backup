@@ -114,7 +114,7 @@ if __name__=="__main__":
                       action="store",
                       type="string",
                       dest="server",
-                      default="10.8.16.64",
+                      default="10.8.16.64",         # HK MySQL服务器默认的内网IP
                       help="target server ip"
                       )
 
