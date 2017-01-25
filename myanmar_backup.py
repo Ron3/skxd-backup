@@ -136,6 +136,8 @@ def backupData(serverIP, hour):
     ''' redis_by_date/2017-01-24/gamedata/20170124_2000_bpsg.rdb.zip  '''
     ''' 要这么放.然后他会把gamedata/20170124_2000_bpsg.rdb.zip 整个目录传递过去 '''
     ''' 到了他们那边.他们则是存在这样的目录下 2017-01-24/gamedata/20170124_2000_bpsg.rdb.zip '''
+    _syncToMyanmar(resultFileNameArray)
+    
 
 
 
