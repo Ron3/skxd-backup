@@ -59,11 +59,12 @@ def _findTodayBackFile():
 
     ''' 找到是今天创建的 && 正则表示式匹配的 '''
     zeroClockTime = _getTodayZeroClockTime()
+    yesterdayZeroClockTime = zeroClockTime - 24 * 3600
     print "zeroClockTime => ", zeroClockTime
 
     resultFileNameArray = []
     for fileName in backupZipFileArray:
-        if os.path.getctime(fileName) >= zeroClockTime and fileName.rfind(".zip") != -1:
+        if os.path.getctime(fileName) <= zeroClockTime and os.path.getctime(fileName) >= yesterdayZeroClockTime and fileName.rfind(".zip") != -1:
             print "filePath => ", fileName
             resultFileNameArray.append(fileName)
 
