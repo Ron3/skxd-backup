@@ -81,29 +81,46 @@ def _syncToMyanmar(resultFileNameArray):
     if resultFileNameArray == None or len(resultFileNameArray) <= 0:
         return
 
+    try:
+        ''' 要把原来的先掉 '''
+        command = "rm -rf %s" % MYANMAR_TEM_PATH
+        resultCode, result = commands.getstatusoutput(command)
+    except:
+        pass
+
     ''' 1, 首先得到今天的时间.然后去建立1个文件夹.最终得到这样的路径 ron/2017-01-24 '''
     todayText = str(datetime.datetime.now())[0:10]
-    path = os.path.join(MYANMAR_TEM_PATH, todayText)
+    todayPath = os.path.join(MYANMAR_TEM_PATH, todayText)
 
     ''' 2, 然后在建立1个叫gamedata的目录. '''
-    path = os.path.join(MYANMAR_TEM_PATH, "gamedata")
-    print "final Path ==> ", path
+    fianlPath = os.path.join(todayPath, "gamedata")
+    print "final Path ==> ", fianlPath
 
     try:
-        os.makedirs(path)
+        os.makedirs(fianlPath)
     except:
         pass
 
     ''' 3, 执行shell 命令.将文件copy到目录 '''
     for fileName in resultFileNameArray:
         try:
-            pass
+            command = "cp %s %s" % (fileName, fianlPath)
+            print "command =>", command
+            resultCode, result = commands.getstatusoutput(command)
         except:
             traceback.print_exc()
 
+    ''' 4, 同步去缅甸的服务器 '''
+    command = "rsync -avz %s rsync://backup-storage.squargame.com/MyCombo_Database/" % (todayPath, )
+    print "command =>", command
+    resultCode, result = commands.getstatusoutput(command)
 
-    ''' 4, 删除目录 '''
-
+    try:
+        ''' 5, 最终删掉 '''
+        command = "rm -rf %s" % MYANMAR_TEM_PATH
+        resultCode, result = commands.getstatusoutput(command)
+    except:
+        pass
 
 
 
@@ -137,7 +154,7 @@ def backupData(serverIP, hour):
     ''' 要这么放.然后他会把gamedata/20170124_2000_bpsg.rdb.zip 整个目录传递过去 '''
     ''' 到了他们那边.他们则是存在这样的目录下 2017-01-24/gamedata/20170124_2000_bpsg.rdb.zip '''
     _syncToMyanmar(resultFileNameArray)
-    
+
 
 
 
