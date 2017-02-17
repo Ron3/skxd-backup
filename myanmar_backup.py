@@ -142,14 +142,15 @@ def _getServerIdByFileName(fileName):
     :param fileName:
     :return:
     """
-    # 20170217_2003_bpsg.rdb.zip
+    # /data/backup/redis_by_date/20170217_2003_bpsg.rdb.zip
     if fileName == None or len(fileName) <= 0:
         return None
 
-    try:
-        return fileName[9:13]
-    except:
+    index = fileName.rfind("_bpsg.rdb.zi")
+    if index < 0:
         return None
+
+    return fileName[index-4 :index]
 
 
 
