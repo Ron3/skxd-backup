@@ -92,18 +92,31 @@ def _syncToMyanmar(resultFileNameArray):
     todayText = str(datetime.datetime.now())[0:10]
     todayPath = os.path.join(MYANMAR_TEM_PATH, todayText)
 
-    ''' 2, 然后在建立1个叫gamedata的目录. '''
-    fianlPath = os.path.join(todayPath, "gamedata")
-    print "final Path ==> ", fianlPath
+    # ''' 2, 然后在建立1个叫gamedata的目录. '''
+    # fianlPath = os.path.join(todayPath, "gamedata")
+    # print "final Path ==> ", fianlPath
 
-    try:
-        os.makedirs(fianlPath)
-    except:
-        pass
+    ''' 2, 这里开始.根据服务器id来创建目录.把文件都放到对应的目录下 '''
+    finalPathDic = {}
+    for fileName in resultFileNameArray:
+        serverId = _getServerIdByFileName(fileName)
+        if serverId == None:
+            continue
+
+        try:
+            fianlPath = os.path.join(todayPath, serverId)
+            finalPathDic[fileName] = fianlPath
+            os.makedirs(fianlPath)
+        except:
+            pass
 
     ''' 3, 执行shell 命令.将文件copy到目录 '''
     for fileName in resultFileNameArray:
         try:
+            fianlPath = finalPathDic.get(fileName)
+            if fianlPath == None:
+                continue
+
             command = "cp %s %s" % (fileName, fianlPath)
             print "command =>", command
             resultCode, result = commands.getstatusoutput(command)
@@ -122,6 +135,17 @@ def _syncToMyanmar(resultFileNameArray):
     except:
         pass
 
+
+def _getServerIdByFileName(fileName):
+    """
+    从文件名字.得到serverId
+    :param fileName:
+    :return:
+    """
+    if fileName == None or len(fileName) <= 0:
+        return None
+
+    return "2001"
 
 
 
