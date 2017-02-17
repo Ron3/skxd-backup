@@ -142,10 +142,14 @@ def _getServerIdByFileName(fileName):
     :param fileName:
     :return:
     """
+    # 20170217_2003_bpsg.rdb.zip
     if fileName == None or len(fileName) <= 0:
         return None
 
-    return "2001"
+    try:
+        return fileName[9:13]
+    except:
+        return None
 
 
 
