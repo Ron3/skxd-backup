@@ -16,7 +16,7 @@ class CleanMemory(object):
         pass
 
 
-    def start(self, intervalTime=60 * 30):
+    def start(self, intervalTime=60*30):
         """
         开始清理
         :param intervalTime:            执行间隔
@@ -24,7 +24,7 @@ class CleanMemory(object):
         """
         while True:
             now = int(time.time())
-            if now / intervalTime == 0:
+            if now % intervalTime == 0:
                 a, b = commands.getstatusoutput("sync; echo 3 | tee /proc/sys/vm/drop_caches")
                 print a, b
 
