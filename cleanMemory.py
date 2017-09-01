@@ -35,7 +35,7 @@ if __name__=="__main__":
     """
     """
     obj = CleanMemory()
-    obj.start(3)
+    obj.start()
 
 
 
