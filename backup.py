@@ -20,7 +20,8 @@ import os.path
 
 
 ''' 路径大家都统一.可以直接在这里配置 '''
-BACKUP_PATH = "/data/backup/redis_by_date/"
+BACKUP_PATH = "/udisk/backupdata/"
+# BACKUP_PATH = "/data/backup/redis_by_date/"
 # BACKUP_PATH = "/Users/Ron2/MyMovie"
 
 
@@ -79,9 +80,10 @@ def backupData(serverIP, hour):
     :param hour:                    从现在开始.多少小时以内均可以
     """
     ''' 1, 求出传输时间点.随机一个值是为了所有服务器错开时间点传过去 '''
-    deltaTime = random.randint(0, hour * 3600+1)
-    now = time.time()
-    copyTime = now + deltaTime
+    # deltaTime = random.randint(0, hour * 3600+1)
+    # now = time.time()
+    # copyTime = now + deltaTime
+    copyTime = 0
 
     ''' 2, 一直等到传输时间 '''
     while copyTime >= time.time():
@@ -95,7 +97,7 @@ def backupData(serverIP, hour):
     ''' 4, 把文件弄过去 '''
     for fileName in resultFileNameArray:
         try:
-            command = "scp %s bpsg@%s:/data/backup_redis_data/" % (fileName, serverIP)
+            command = "scp %s bpsg@%s:/data/backup_bs2pay_data/" % (fileName, serverIP)
             print "command =>", command
             resultCode, result = commands.getstatusoutput(command)
             print "resultCode, result=> ", resultCode, result
@@ -115,7 +117,7 @@ if __name__=="__main__":
                       action="store",
                       type="string",
                       dest="server",
-                      default="10.8.16.64",         # HK MySQL服务器默认的内网IP
+                      default="10.8.2.212",         # HK FrontServer
                       help="target server ip"
                       )
 
