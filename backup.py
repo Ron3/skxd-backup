@@ -65,7 +65,7 @@ def _findTodayBackFile():
 
     resultFileNameArray = []
     for fileName in backupZipFileArray:
-        if os.path.getctime(fileName) <= zeroClockTime and os.path.getctime(fileName) >= yesterdayZeroClockTime and fileName.rfind(".zip") != -1:
+        if os.path.getctime(fileName) <= zeroClockTime and os.path.getctime(fileName) >= yesterdayZeroClockTime and fileName.rfind(".rdb") != -1:
             print "filePath => ", fileName
             resultFileNameArray.append(fileName)
 
